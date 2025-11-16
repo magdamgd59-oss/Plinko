@@ -3,98 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plinko Game</title>
+<title>Plinko Professional</title>
 
 <style>
     body {
-        background: #f2f2f2;
+        background: #0b0f19;
         margin: 0;
         padding: 0;
-        font-family: Arial;
+        font-family: Arial, sans-serif;
         display: flex;
         justify-content: center;
+        color: white;
     }
 
-    #gameContainer {
+    #container {
         margin-top: 20px;
-        background: white;
+        background: linear-gradient(to bottom, #111827, #0b0f19);
         padding: 20px;
         border-radius: 14px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
     }
 
     canvas {
-        background: #ffffff;
-        border-radius: 10px;
-        border: 2px solid #ddd;
+        background: #1f2937;
+        border-radius: 12px;
+        border: 3px solid #374151;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
 
     .btn {
-        background: #007bff;
+        background: #2563eb;
         color: white;
-        padding: 10px 20px;
+        padding: 12px 22px;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
+        font-size: 17px;
         margin-top: 15px;
         cursor: pointer;
-        font-size: 16px;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #1d4ed8;
+    }
+
+    .slot {
+        width: 40px;
+        height: 40px;
+        background: #111;
+        border: 2px solid #333;
+        border-radius: 8px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        color: #22c55e;
+        font-weight: bold;
+        margin: 4px;
+        box-shadow: 0 0 6px rgba(0,255,0,0.4);
     }
 </style>
 </head>
 <body>
 
-<div id="gameContainer">
-    <h2 style="text-align:center;">🎮 Plinko Game</h2>
+<div id="container">
+    <h2 style="text-align:center;">🔥 Plinko Game – Pro Version</h2>
 
-    <canvas id="plinkoCanvas" width="350" height="500"></canvas>
+    <canvas id="plinkoCanvas" width="360" height="580"></canvas>
 
     <center>
-        <button class="btn" onclick="dropBall()">إسقاط الكرة</button>
+        <button class="btn" onclick="dropBall()">إسقاط الكرة 🎯</button>
+    </center>
+
+    <center style="margin-top: 15px;">
+        <div class="slot">10</div>
+        <div class="slot">20</div>
+        <div class="slot">50</div>
+        <div class="slot">100</div>
+        <div class="slot">50</div>
+        <div class="slot">20</div>
+        <div class="slot">10</div>
     </center>
 </div>
 
 <script>
     const canvas = document.getElementById("plinkoCanvas");
-    const ctx = canvas.getContext("2d");
+    const ctx     = canvas.getContext("2d");
 
     let pegs = [];
     let ball = null;
 
-    const pegRows = 8;
-    const pegSpacing = 40;
+    const pegRows = 10;
+    const spacing = 40;
 
-    function createPegs() {
+    // Create pegs
+    function buildPegs() {
         for (let r = 0; r < pegRows; r++) {
-            for (let c = 0; c < 8; c++) {
+            for (let c = 0; c < 9; c++) {
                 let offset = (r % 2 === 0) ? 20 : 0;
                 pegs.push({
-                    x: 40 + c * pegSpacing + offset,
-                    y: 60 + r * pegSpacing
+                    x: 40 + c * spacing + offset,
+                    y: 60 + r * spacing
                 });
             }
         }
     }
 
+    // Draw pegs
     function drawPegs() {
-        ctx.fillStyle = "#000";
+        ctx.fillStyle = "#9ca3af";
         pegs.forEach(p => {
             ctx.beginPath();
-            ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
             ctx.fill();
         });
     }
 
+    // Drop ball
     function dropBall() {
-        if (ball !== null) return;
+        if (ball) return;
 
         ball = {
             x: canvas.width / 2,
-            y: 20,
+            y: 30,
             vx: 0,
-            vy: 2
+            vy: 1.5
         };
     }
 
+    // Update ball physics
     function updateBall() {
         if (!ball) return;
 
@@ -106,38 +142,43 @@
             let dy = ball.y - p.y;
             let dist = Math.sqrt(dx*dx + dy*dy);
 
-            if (dist < 10) {
-                ball.vx = (Math.random() - 0.5) * 4;
+            if (dist < 14) {
+                ball.vx = (Math.random() - 0.5) * 3.5;
                 ball.vy = 2;
             }
         });
 
-        if (ball.y > canvas.height - 10) {
+        if (ball.y > canvas.height - 20) {
             ball = null;
         }
     }
 
+    // Draw ball
     function drawBall() {
         if (!ball) return;
 
-        ctx.fillStyle = "red";
+        let gradient = ctx.createRadialGradient(ball.x, ball.y, 2, ball.x, ball.y, 10);
+        gradient.addColorStop(0, "#ff4444");
+        gradient.addColorStop(1, "#cc0000");
+
+        ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(ball.x, ball.y, 8, 0, Math.PI * 2);
+        ctx.arc(ball.x, ball.y, 10, 0, Math.PI * 2);
         ctx.fill();
     }
 
-    function gameLoop() {
+    function loop() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         drawPegs();
         updateBall();
         drawBall();
 
-        requestAnimationFrame(gameLoop);
+        requestAnimationFrame(loop);
     }
 
-    createPegs();
-    gameLoop();
+    buildPegs();
+    loop();
 </script>
 
 </body>

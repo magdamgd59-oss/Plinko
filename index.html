@@ -5,106 +5,101 @@
 <title>Plinko</title>
 <style>
     body {
-        font-family: sans-serif;
         margin: 0;
         padding: 0;
-        background: #0a0a2a;
-        color: #fff;
-        text-align: center;
-    }.container {
-    margin-top: 40px;
-    padding: 20px;
+        font-family: sans-serif;
+        background: #001a33;
+        overflow:hidden;
+    }/* خلفية ضبابية */
+.bg-blur {
+    position: fixed;
+    inset: 0;
+    background: url('https://i.imgur.com/1c8ZQkR.png'); /* شكل دائري مشابه للبلينكو */
+    background-size: cover;
+    background-position: center;
+    filter: blur(12px) brightness(0.8);
+    z-index: -2;
 }
 
-.title {
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 15px;
+/* دائرة بلينكو كبيرة */
+.plinko-circle {
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, #ff3b3b, #b30000);
+    border-radius: 50%;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.6;
+    filter: blur(3px);
+    z-index: -1;
 }
 
-.box {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 20px;
-    border-radius: 14px;
-    width: 320px;
-    margin: auto;
-    backdrop-filter: blur(6px);
+.container {
+    max-width: 420px;
+    margin: 80px auto;
+    background: rgba(255,255,255,0.09);
+    border-radius: 18px;
+    padding: 22px;
+    color: #fff;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.25);
+    backdrop-filter: blur(12px);
 }
 
-.row {
+h1 { font-size: 28px; margin-bottom: 6px; }
+p { opacity: 0.9; }
+
+.info {
+    background: rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
-    margin: 10px 0;
     font-size: 20px;
 }
 
-button {
-    width: 100%;
-    margin-top: 15px;
-    padding: 12px;
+.btn-main {
     background: #ff0044;
     border: none;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.65);
-    justify-content: center;
-    align-items: center;
-}
-
-.popup-content {
-    background: #ffffff15;
-    padding: 25px;
-    width: 300px;
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    font-size: 20px;
-}
-
-.close {
-    margin-top: 15px;
-    padding: 10px;
-    width: 100%;
-    background: #222;
-    border: none;
-    color: #fff;
+    padding: 14px 25px;
     font-size: 18px;
-    border-radius: 10px;
+    border-radius: 12px;
+    color: #fff;
     cursor: pointer;
+    width: 100%;
+    transition: 0.3s;
 }
+.btn-main:hover{ background:#ff325f; }
 
 </style>
 </head>
-<body><div class="container">
-    <div class="title">مبروك! ربحك جاهز للسحب 🎉</div><div class="box">
-    <div class="row"><span>المكسب</span><span>6850</span></div>
-    <div class="row"><span>الرسوم</span><span>984</span></div>
-    <button onclick="openPopup()">سحب المكسب</button>
+<body><div class="bg-blur"></div>
+<div class="plinko-circle"></div><div class="container">
+    <h1>ألف مبروك 💰</h1>
+    <p>انت كسبت مع Plinko والمكسب جاهز للسحب بمجرد دفع الرسوم</p><div class="info"><span>المكسب</span><b>٦٬٨٥٠ ج</b></div>
+<div class="info"><span>الرسوم</span><b>٩٨٤ ج</b></div>
+<div class="info"><span>الحالة</span><b>جاهز للسحب</b></div>
+
+<button class="btn-main" onclick="openModal()">سحب المكسب</button>
+
+</div><!-- Popup --><div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);padding:20px;z-index:999;">
+  <div style="max-width:420px;margin:auto;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:25px;color:#fff;text-align:center;backdrop-filter:blur(12px);">
+    <h2 style="font-size:26px;margin-bottom:10px;">سحب الأرباح 💰</h2>
+    <p style="opacity:0.9;margin-bottom:20px;">برجاء سداد الرسوم ليتم تحويل المكسب لمحفظتك</p><div style="text-align:right;font-size:20px;margin-bottom:15px;">
+  <div style="background:rgba(255,255,255,0.08);padding:10px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;"><span>المكسب</span><b>٦٬٨٥٠ ج</b></div>
+  <div style="background:rgba(255,255,255,0.08);padding:10px;border-radius:12px;display:flex;justify-content:space-between;"><span>الرسوم</span><b>٩٨٤ ج</b></div>
 </div>
 
-</div><div class="popup" id="popup">
-    <div class="popup-content">
-        برجاء سداد الرسوم ليتم تحويل المكسب على محفظتك.
-        <button class="close" onclick="closePopup()">إغلاق</button>
-    </div>
-</div><script>
-function openPopup() {
-    document.getElementById("popup").style.display = "flex";
-}
+<button onclick="closeModal()" style="margin-top:20px;background:#ff0044;border:none;padding:14px 20px;font-size:18px;border-radius:12px;color:#fff;width:100%;cursor:pointer;">تمام</button>
 
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-}
-</script></body>
+  </div>
+</div>
+<script>
+function openModal(){ document.getElementById('modal').style.display='block'; }
+function closeModal(){ document.getElementById('modal').style.display='none'; }
+</script>
+</body>
 </html>

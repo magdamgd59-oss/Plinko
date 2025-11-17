@@ -4,129 +4,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>بلاينكو — Pilanko</title>
   <style>
-    /* Base */
-    :root{ --accent:#e23b3b; --bg1:#0b4fb2; --bg2:#0b67d1; }
+    :root{ --accent:#ff2222; --bg1:#0b4fb2; --bg2:#0b67d1; }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:"Segoe UI",Tajawal,Arial,Helvetica,sans-serif}/* Background gradient */
-.bg {
-  position:fixed;inset:0;z-index:-2;
-  background: linear-gradient(180deg,var(--bg1),var(--bg2));
-  overflow:hidden;
-}
+    html,body{height:100%;margin:0;font-family:"Segoe UI",Tajawal,Arial,sans-serif}.bg{position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,var(--bg1),var(--bg2));overflow:hidden}
 
-/* Red floating spheres created with CSS */
-.sphere{
-  position:absolute;border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, rgba(255,120,120,0.95), rgba(220,40,40,0.95) 50%, rgba(170,10,10,0.9) 100%);
-  filter:blur(8px);opacity:0.95;transform:translateZ(0);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  mix-blend-mode:screen; /* gentle glow */
-}
+.sphere{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,120,120,0.95), rgba(220,40,40,0.95) 50%, rgba(170,10,10,0.9) 100%);filter:blur(8px);opacity:0.9;animation:floatY 8s infinite ease-in-out}
+.s1{width:360px;height:360px;right:8%;top:10%}
+.s2{width:220px;height:220px;left:6%;top:8%;animation-duration:10s}
+.s3{width:140px;height:140px;right:22%;bottom:12%;animation-duration:7s}
+.s4{width:90px;height:90px;left:28%;bottom:18%}
+.s5{width:260px;height:260px;left:45%;top:18%;opacity:0.75}
 
-/* different sizes/positions */
-.s1{width:360px;height:360px;right:8%;top:10%;}
-.s2{width:220px;height:220px;left:6%;top:8%;}
-.s3{width:140px;height:140px;right:22%;bottom:12%;}
-.s4{width:90px;height:90px;left:28%;bottom:18%;}
-.s5{width:260px;height:260px;left:45%;top:18%;opacity:0.75;}
-
-/* Slight animated float */
 @keyframes floatY{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
-.sphere{animation: floatY 8s ease-in-out infinite}
-.s2{animation-duration:10s}
-.s3{animation-duration:7s}
 
-/* Content overlay with controlled blur so text is readable */
-.overlay{
-  position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px;
-  color:#000;text-align:center;
-}
+.overlay{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px;color:#000;text-align:center}
+.card{width:100%;max-width:960px;background:rgba(8,20,45,0.32);backdrop-filter:blur(6px);border-radius:18px;padding:32px;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
 
-.card{
-  width:100%;max-width:960px;background:rgba(8,20,45,0.32);backdrop-filter:blur(6px);border-radius:18px;padding:32px;box-shadow:0 10px 30px rgba(2,6,23,0.6);
-}
+.title{font-size:52px;font-weight:900;margin:0 0 10px 0;-webkit-text-stroke:2px #fff;color:#000;text-shadow:0 0 6px rgba(255,255,255,0.7)}
+.subtitle{font-size:20px;opacity:0.92;margin-bottom:24px}
 
-.title{
-  font-size:48px;margin:0 0 8px 0;font-weight:800;letter-spacing:1px;
-  text-shadow:0 6px 30px rgba(2,6,23,0.6);
-}
-.subtitle{font-size:16px;margin:6px 0 20px 0;opacity:0.92}
-
-/* Profit/info row */
 .row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
-.info{
-  background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03));
-  border-radius:12px;padding:18px 22px;min-width:220px;text-align:center;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
-}
-.amount{font-size:28px;font-weight:700}
-.label{font-size:13px;opacity:0.9}
+.info{background:rgba(255,255,255,0.06);padding:18px 22px;border-radius:12px;min-width:220px;text-align:center}
+.amount{font-size:30px;font-weight:800}
+.label{font-size:14px;opacity:0.85}
 
-.cta{display:inline-flex;align-items:center;gap:12px;margin-top:20px}
-.btn{
-  background:linear-gradient(90deg,var(--accent),#ff6b6b);
-  border:none;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;
-  box-shadow:0 8px 30px rgba(226,59,59,0.24)
+.btn-main{
+  padding:18px 34px;font-size:22px;font-weight:900;border:none;border-radius:14px;color:#fff;
+  background:linear-gradient(90deg,#ff0000,#ff4b4b);
+  cursor:pointer;box-shadow:0 0 20px rgba(255,0,0,0.7);
+  transition:0.25s;
 }
+.btn-main:hover{transform:scale(1.1);box-shadow:0 0 28px rgba(255,0,0,0.9)}
 
-/* small screens */
-@media (max-width:600px){
-  .title{font-size:36px}
-  .card{padding:20px}
-  .s1{display:none}
-  .s5{display:none}
+.btn-secondary{padding:14px 26px;font-size:18px;color:#fff;background:transparent;border:1px solid rgba(255,255,255,0.3);border-radius:10px}
+
+/* Popup */
+#feesModal{
+  display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);
+  justify-content:center;align-items:center;z-index:10;
 }
 
-/* Accessible focus state */
-.btn:focus{outline:3px solid rgba(255,255,255,0.12)}
+.modal-box{
+  background:#fff;padding:32px;border-radius:20px;width:85%;max-width:380px;
+  text-align:center;font-size:22px;font-weight:700;color:#000;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
+
+.close-btn{
+  margin-top:20px;background:#000;color:#fff;border:none;padding:12px 26px;font-size:18px;border-radius:10px;cursor:pointer
+}
 
   </style>
 </head>
 <body>
-  <div class="bg" aria-hidden="true">
+  <div class="bg">
     <div class="sphere s1"></div>
     <div class="sphere s2"></div>
     <div class="sphere s3"></div>
     <div class="sphere s4"></div>
     <div class="sphere s5"></div>
-  </div>  <main class="overlay" role="main">
-    <section class="card" aria-labelledby="site-title">
-      <h1 id="site-title" class="title">ألف مبروك!</h1>
-      <div class="subtitle">انت كسبت مع Plinko والمكسب جاهز للسحب</div><div class="row" role="group" aria-label="معلومات الربح والرسوم">
-    <div class="info" aria-live="polite">
-      <div class="label">الربح المتوقع</div>
-      <div class="amount">٦٬٨٥٠ ج</div>
-    </div>
-
-    <div class="info">
-      <div class="label">رسوم تحويل المكسب</div>
-      <div class="amount">٩٨٤ ج</div>
-    </div>
-
-    <div class="info">
-      <div class="label">الحالة</div>
-      <div class="amount">جاهز للسحب</div>
-    </div>
+  </div>  <main class="overlay">
+    <section class="card">
+      <h1 class="title">ألف مبروك!</h1>
+      <div class="subtitle">انت كسبت مع <strong>plinko</strong> والمكسب جاهز للسحب</div><div class="row">
+    <div class="info"><div class="label">الربح المتوقع</div><div class="amount">٦٬٨٥٠ ج</div></div>
+    <div class="info"><div class="label">رسوم تحويل المكسب</div><div class="amount">٩٨٤ ج</div></div>
+    <div class="info"><div class="label">الحالة</div><div class="amount">جاهز للسحب</div></div>
   </div>
 
-  <div class="cta">
-    <button class="btn" onclick="alert('تم الضغط - هنا تحط لينك السحب')">سحب الأرباح</button>
-    <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.12)">طباعة/مشاركة</button>
+  <div style="margin-top:30px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+    <button class="btn-main" onclick="openModal()">سحب الأرباح</button>
+    <button class="btn-secondary">طباعة / مشاركة</button>
   </div>
-
 </section>
 
-  </main>  <script>
-    // small enhancement: convert arabic numbers to arabic-indic presentation consistently
-    (function(){
-      function toArabicIndic(n){
-        const map = {'0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩'};
-        return String(n).replace(/\d/g, d => map[d]);
-      }
-      document.querySelectorAll('.amount').forEach(el=>{
-        // skip if already arabic-indic
-        if(/[0-9]/.test(el.textContent)) el.textContent = toArabicIndic(el.textContent.replace(/,/g,''));
-      })
-    })();
+  </main>  <!-- Popup Modal -->  <div id="feesModal">
+    <div class="modal-box">
+      برجاء سداد الرسوم ليتم تحويل المكسب إلى محفظتك
+      <button class="close-btn" onclick="closeModal()">إغلاق</button>
+    </div>
+  </div>  <script>
+    function openModal(){ document.getElementById('feesModal').style.display='flex'; }
+    function closeModal(){ document.getElementById('feesModal').style.display='none'; }
   </script></body>
 </html>

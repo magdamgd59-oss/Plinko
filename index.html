@@ -1,185 +1,132 @@
-<!DOCTYPE html>
-<html lang="ar">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plinko Professional</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>بلاينكو — Pilanko</title>
+  <style>
+    /* Base */
+    :root{ --accent:#e23b3b; --bg1:#0b4fb2; --bg2:#0b67d1; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:"Segoe UI",Tajawal,Arial,Helvetica,sans-serif}/* Background gradient */
+.bg {
+  position:fixed;inset:0;z-index:-2;
+  background: linear-gradient(180deg,var(--bg1),var(--bg2));
+  overflow:hidden;
+}
 
-<style>
-    body {
-        background: #0b0f19;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        color: white;
-    }
+/* Red floating spheres created with CSS */
+.sphere{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, rgba(255,120,120,0.95), rgba(220,40,40,0.95) 50%, rgba(170,10,10,0.9) 100%);
+  filter:blur(8px);opacity:0.95;transform:translateZ(0);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  mix-blend-mode:screen; /* gentle glow */
+}
 
-    #container {
-        margin-top: 20px;
-        background: linear-gradient(to bottom, #111827, #0b0f19);
-        padding: 20px;
-        border-radius: 14px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    }
+/* different sizes/positions */
+.s1{width:360px;height:360px;right:8%;top:10%;}
+.s2{width:220px;height:220px;left:6%;top:8%;}
+.s3{width:140px;height:140px;right:22%;bottom:12%;}
+.s4{width:90px;height:90px;left:28%;bottom:18%;}
+.s5{width:260px;height:260px;left:45%;top:18%;opacity:0.75;}
 
-    canvas {
-        background: #1f2937;
-        border-radius: 12px;
-        border: 3px solid #374151;
-        box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    }
+/* Slight animated float */
+@keyframes floatY{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+.sphere{animation: floatY 8s ease-in-out infinite}
+.s2{animation-duration:10s}
+.s3{animation-duration:7s}
 
-    .btn {
-        background: #2563eb;
-        color: white;
-        padding: 12px 22px;
-        border: none;
-        border-radius: 10px;
-        font-size: 17px;
-        margin-top: 15px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
+/* Content overlay with controlled blur so text is readable */
+.overlay{
+  position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px;
+  color:#fff;text-align:center;
+}
 
-    .btn:hover {
-        background: #1d4ed8;
-    }
+.card{
+  width:100%;max-width:960px;background:rgba(8,20,45,0.32);backdrop-filter:blur(6px);border-radius:18px;padding:32px;box-shadow:0 10px 30px rgba(2,6,23,0.6);
+}
 
-    .slot {
-        width: 40px;
-        height: 40px;
-        background: #111;
-        border: 2px solid #333;
-        border-radius: 8px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        color: #22c55e;
-        font-weight: bold;
-        margin: 4px;
-        box-shadow: 0 0 6px rgba(0,255,0,0.4);
-    }
-</style>
+.title{
+  font-size:48px;margin:0 0 8px 0;font-weight:800;letter-spacing:1px;
+  text-shadow:0 6px 30px rgba(2,6,23,0.6);
+}
+.subtitle{font-size:16px;margin:6px 0 20px 0;opacity:0.92}
+
+/* Profit/info row */
+.row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.info{
+  background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03));
+  border-radius:12px;padding:18px 22px;min-width:220px;text-align:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.amount{font-size:28px;font-weight:700}
+.label{font-size:13px;opacity:0.9}
+
+.cta{display:inline-flex;align-items:center;gap:12px;margin-top:20px}
+.btn{
+  background:linear-gradient(90deg,var(--accent),#ff6b6b);
+  border:none;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer;
+  box-shadow:0 8px 30px rgba(226,59,59,0.24)
+}
+
+/* small screens */
+@media (max-width:600px){
+  .title{font-size:36px}
+  .card{padding:20px}
+  .s1{display:none}
+  .s5{display:none}
+}
+
+/* Accessible focus state */
+.btn:focus{outline:3px solid rgba(255,255,255,0.12)}
+
+  </style>
 </head>
 <body>
+  <div class="bg" aria-hidden="true">
+    <div class="sphere s1"></div>
+    <div class="sphere s2"></div>
+    <div class="sphere s3"></div>
+    <div class="sphere s4"></div>
+    <div class="sphere s5"></div>
+  </div>  <main class="overlay" role="main">
+    <section class="card" aria-labelledby="site-title">
+      <h1 id="site-title" class="title">بلاينكو</h1>
+      <div class="subtitle">لعبة بسيطة وممتعة — صمم صفحتك بسرعة وحط بيانات الربح</div><div class="row" role="group" aria-label="معلومات الربح والرسوم">
+    <div class="info" aria-live="polite">
+      <div class="label">الربح المتوقع</div>
+      <div class="amount">٦٬٨٥٠ ج</div>
+    </div>
 
-<div id="container">
-    <h2 style="text-align:center;">🔥 Plinko Game – Pro Version</h2>
+    <div class="info">
+      <div class="label">رسوم تحويل المكسب</div>
+      <div class="amount">٩٨٤ ج</div>
+    </div>
 
-    <canvas id="plinkoCanvas" width="360" height="580"></canvas>
+    <div class="info">
+      <div class="label">الحالة</div>
+      <div class="amount">جاهز للسحب</div>
+    </div>
+  </div>
 
-    <center>
-        <button class="btn" onclick="dropBall()">إسقاط الكرة 🎯</button>
-    </center>
+  <div class="cta">
+    <button class="btn" onclick="alert('تم الضغط - هنا تحط لينك السحب')">سحب الأرباح</button>
+    <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.12)">طباعة/مشاركة</button>
+  </div>
 
-    <center style="margin-top: 15px;">
-        <div class="slot">10</div>
-        <div class="slot">20</div>
-        <div class="slot">50</div>
-        <div class="slot">100</div>
-        <div class="slot">50</div>
-        <div class="slot">20</div>
-        <div class="slot">10</div>
-    </center>
-</div>
+</section>
 
-<script>
-    const canvas = document.getElementById("plinkoCanvas");
-    const ctx     = canvas.getContext("2d");
-
-    let pegs = [];
-    let ball = null;
-
-    const pegRows = 10;
-    const spacing = 40;
-
-    // Create pegs
-    function buildPegs() {
-        for (let r = 0; r < pegRows; r++) {
-            for (let c = 0; c < 9; c++) {
-                let offset = (r % 2 === 0) ? 20 : 0;
-                pegs.push({
-                    x: 40 + c * spacing + offset,
-                    y: 60 + r * spacing
-                });
-            }
-        }
-    }
-
-    // Draw pegs
-    function drawPegs() {
-        ctx.fillStyle = "#9ca3af";
-        pegs.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
-            ctx.fill();
-        });
-    }
-
-    // Drop ball
-    function dropBall() {
-        if (ball) return;
-
-        ball = {
-            x: canvas.width / 2,
-            y: 30,
-            vx: 0,
-            vy: 1.5
-        };
-    }
-
-    // Update ball physics
-    function updateBall() {
-        if (!ball) return;
-
-        ball.y += ball.vy;
-        ball.x += ball.vx;
-
-        pegs.forEach(p => {
-            let dx = ball.x - p.x;
-            let dy = ball.y - p.y;
-            let dist = Math.sqrt(dx*dx + dy*dy);
-
-            if (dist < 14) {
-                ball.vx = (Math.random() - 0.5) * 3.5;
-                ball.vy = 2;
-            }
-        });
-
-        if (ball.y > canvas.height - 20) {
-            ball = null;
-        }
-    }
-
-    // Draw ball
-    function drawBall() {
-        if (!ball) return;
-
-        let gradient = ctx.createRadialGradient(ball.x, ball.y, 2, ball.x, ball.y, 10);
-        gradient.addColorStop(0, "#ff4444");
-        gradient.addColorStop(1, "#cc0000");
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(ball.x, ball.y, 10, 0, Math.PI * 2);
-        ctx.fill();
-    }
-
-    function loop() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        drawPegs();
-        updateBall();
-        drawBall();
-
-        requestAnimationFrame(loop);
-    }
-
-    buildPegs();
-    loop();
-</script>
-
-</body>
+  </main>  <script>
+    // small enhancement: convert arabic numbers to arabic-indic presentation consistently
+    (function(){
+      function toArabicIndic(n){
+        const map = {'0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩'};
+        return String(n).replace(/\d/g, d => map[d]);
+      }
+      document.querySelectorAll('.amount').forEach(el=>{
+        // skip if already arabic-indic
+        if(/[0-9]/.test(el.textContent)) el.textContent = toArabicIndic(el.textContent.replace(/,/g,''));
+      })
+    })();
+  </script></body>
 </html>

@@ -74,7 +74,7 @@ p { opacity: 0.9; }
 }
 .btn-main:hover{ background:#ff325f; }
 
-@keyframes glowMove { 0% { text-shadow:0 0 8px #0ff, 0 0 16px #0ff; transform:translateX(0); } 50% { text-shadow:0 0 18px #0ff, 0 0 35px #0ff; transform:translateX(10px); } 100% { text-shadow:0 0 8px #0ff, 0 0 16px #0ff; transform:translateX(0); } } .plinko-anim { animation: glowMove 2.5s infinite ease-in-out; } </style>
+@keyframes glowMove { 0% { text-shadow:0 0 8px #0ff, 0 0 16px #0ff; transform:translateX(0); } 50% { text-shadow:0 0 18px #0ff, 0 0 35px #0ff; transform:translateX(10px); } 100% { text-shadow:0 0 8px #0ff, 0 0 16px #0ff; transform:translateX(0); } } .plinko-anim { animation: glowMove 2.5s infinite ease-in-out; } @keyframes arrowMove { 0% {transform:translateY(0);} 50% {transform:translateY(6px);} 100% {transform:translateY(0);} } .arrow-anim { display:inline-block; animation: arrowMove 1.2s infinite ease-in-out; } </style>
 
 </head>
 <body>
@@ -99,6 +99,9 @@ p { opacity: 0.9; }
 
 <label style="display:block;margin:15px 0 10px;font-size:18px;">ارفاق صورة:</label> <input type="file" style="width:100%;padding:10px;border-radius:12px;border:none;background:#fff;color:#000;" />
 
+<div class="upload-note" style="margin-top:12px;font-size:18px;color:#fff;text-align:center;font-weight:bold;">
+⬇️ <span class="arrow-anim">↘</span> ارفع الاسكرين هنا او تواصل مع استاذه ريهام ع الماسنجر
+</div>
 </div></div>
 <script>
 function openModal(){ document.getElementById('modal').style.display='block'; }

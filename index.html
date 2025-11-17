@@ -74,10 +74,11 @@ p { opacity: 0.9; }
 }
 .btn-main:hover{ background:#ff325f; }
 
-</style>
+@keyframes glowMove { 0% { text-shadow:0 0 8px #0ff, 0 0 16px #0ff; transform:translateX(0); } 50% { text-shadow:0 0 18px #0ff, 0 0 35px #0ff; transform:translateX(10px); } 100% { text-shadow:0 0 8px #0ff, 0 0 16px #0ff; transform:translateX(0); } } .plinko-anim { animation: glowMove 2.5s infinite ease-in-out; } </style>
+
 </head>
 <body>
-<img src="plinko-logo.png" alt="Plinko Logo" style="width:140px;display:block;margin:20px auto;filter:drop-shadow(0 0 6px #fff);"><div class="bg-blur"></div>
+<h1 class="plinko-anim" style="font-size:42px;text-align:center;margin:20px 0;font-weight:900;color:#fff;letter-spacing:2px;text-shadow:0 0 10px #0ff, 0 0 20px #0ff;">PLINKO</h1><div class="bg-blur"></div>
 <div class="plinko-circle"></div><div class="container">
     <h1>ألف مبروك 💰</h1>
     <p>انت كسبت مع Plinko والمكسب جاهز للسحب بمجرد دفع الرسوم</p><div class="info"><span>المكسب</span><b>٦٬٨٥٠ ج</b></div>
